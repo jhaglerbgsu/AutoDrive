@@ -10,19 +10,21 @@ from torch.utils.data import DataLoader
 from torch.optim import Adam, lr_scheduler
 from tensorboardX import SummaryWriter
 
-from config import device, epochs, lrate, wdecay, batch_size, getLoss, print_freq, tensorboard_freq, ckpt_src, net, \
+from config import device, epochs, lrate, wdecay, batch_size, getLoss, print_freq, tensorboard_freq, net, \
                     img_dir, csv_src, train_test_split_ratio, seq_len, early_stop_tolerance, fine_tune_ratio, \
-                    is_continue, best_ckpt_src
+                    is_continue
 from utils import group_move_to_device, LossMeter, get_logger, load_ckpt_continue_training
-from models import TruckNN, TruckResnet50, TruckRNN
+from models import TruckNN, TruckResnet18, TruckRNN
 from data import TruckDataset, TruckNNSampler
+
+#best_ckpt_src, ckpt_src
 
 """
 Input Dimension Validation: 
 
 TruckNN: N x 3 x 80 x 240 -> N x 1
 TruckRNN: N x 3 x 15 x 80 x 240 -> N x 5
-TruckResnet50: N x 3 x 224 x 224 -> N x 1
+TruckResnet18: N x 3 x 224 x 224 -> N x 1
 """
 
 def train(cont=False):
@@ -42,8 +44,8 @@ def train(cont=False):
     # Init model
     if net == "TruckNN":
         model = TruckNN()
-    elif net == "TruckResnet50":
-        model = TruckResnet50()
+    elif net == "TruckResnet18":
+        model = TruckResnet18()
     elif net == "TruckRNN":
         model = TruckRNN()
 
@@ -56,16 +58,16 @@ def train(cont=False):
     epochs_since_improvement = 0
 
     # for continue training
-    if cont:
-        model, optim, cur_epoch, best_mse = load_ckpt_continue_training(best_ckpt_src, model, optim, logger)
-        logger.info("Current best loss (mse): {0}".format(best_mse))
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            for i in range(cur_epoch):
-                scheduler.step()
-    else:
-        model = nn.DataParallel(model)
-        model = model.to(device)
+    #if cont:
+    #    model, optim, cur_epoch, best_mse = load_ckpt_continue_training(best_ckpt_src, model, optim, logger)
+    #    logger.info("Current best loss (mse): {0}".format(best_mse))
+    #    with warnings.catch_warnings():
+    #        warnings.simplefilter("ignore")
+    #        for i in range(cur_epoch):
+    #            scheduler.step()
+    #else:
+    model = nn.DataParallel(model)
+    model = model.to(device)
 
     logger.info("(2) Model Initiated ... ")
     logger.info("Training model: {}".format(net))
@@ -173,26 +175,26 @@ def train(cont=False):
         scheduler.step()
 
         # save checkpoint 
-        is_best = valid_loss < best_mse
-        best_loss = min(valid_loss, best_mse)
-        if not is_best:
-            epochs_since_improvement += 1
-            logger.info("Epochs since last improvement: %d\n" % (epochs_since_improvement,))
-            if epochs_since_improvement == early_stop_tolerance:
-                break # early stopping.
-        else:
-            epochs_since_improvement = 0
-            state = {
-                'epoch': epoch,
-                'loss': best_loss,
-                'model_state_dict': model.state_dict(),
-                'optimizer_state_dict': optim.state_dict(),
-            }
-            torch.save(state, ckpt_src)
-            logger.info("Checkpoint updated.")
-            best_mse = best_loss
-        epoch_bar.update(1)
-    writer.close()
+        #is_best = valid_loss < best_mse
+        #best_loss = min(valid_loss, best_mse)
+        #if not is_best:
+        #    epochs_since_improvement += 1
+        #    logger.info("Epochs since last improvement: %d\n" % (epochs_since_improvement,))
+        #    if epochs_since_improvement == early_stop_tolerance:
+        #        break # early stopping.
+        #else:
+        #    epochs_since_improvement = 0
+        #    state = {
+        #        'epoch': epoch,
+        #        'loss': best_loss,
+        #        'model_state_dict': model.state_dict(),
+        #        'optimizer_state_dict': optim.state_dict(),
+        #    }
+        #    torch.save(state, ckpt_src)
+        #    logger.info("Checkpoint updated.")
+        #    best_mse = best_loss
+        #epoch_bar.update(1)
+    #writer.close()
 
 if __name__ == "__main__":
     train(cont=is_continue)
