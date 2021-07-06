@@ -40,7 +40,7 @@ class TruckDataset(Dataset):
                 right_angles = []
                 for seq_idx in batch_idx:
                     name = self.img_names[seq_idx].split('\\center')[1]
-                    front_name, left_name, right_name = os.path.join('data', 'IMG/center' + name), os.path.join('data', 'IMG/left' + name), os.path.join('data', 'IMG/right' + name)
+                    front_name, left_name, right_name = os.path.join('C:\\Users\\DJL57\\Documents\\dataset', 'IMG/center' + name), os.path.join('C:\\Users\\DJL57\\Documents\\dataset', 'IMG/left' + name), os.path.join('C:\\Users\\DJL57\\Documents\\dataset', 'IMG/right' + name)
                     front_img, left_img, right_img = np.array(Image.open(front_name)), np.array(Image.open(left_name)), np.array(Image.open(right_name))
                     front_angle, left_angle, right_angle = self.angles[seq_idx], self.angles[seq_idx] + 0.4, self.angles[seq_idx] - 0.4
 
@@ -65,7 +65,7 @@ class TruckDataset(Dataset):
             return torch.stack(left_imgs_batch), torch.stack(front_imgs_batch), torch.stack(right_imgs_batch), torch.stack(left_angles_batch), torch.stack(front_angles_batch), torch.stack(right_angles_batch)
 
         name = self.img_names[index].split('\\center')[1]
-        front_name, left_name, right_name = os.path.join('data', 'IMG/center' + name), os.path.join('data', 'IMG/left' + name), os.path.join('data', 'IMG/right' + name)
+        front_name, left_name, right_name = os.path.join('C:\\Users\\DJL57\\Documents\\dataset', 'IMG/center' + name), os.path.join('C:\\Users\\DJL57\\Documents\\dataset', 'IMG/left' + name), os.path.join('C:\\Users\\DJL57\\Documents\\dataset', 'IMG/right' + name)
         front_img, left_img, right_img = np.array(Image.open(front_name)), np.array(Image.open(left_name)), np.array(Image.open(right_name))
         front_angle, left_angle, right_angle = self.angles[index], self.angles[index] + 0.4, self.angles[index] - 0.4
 
@@ -81,7 +81,7 @@ class TruckDataset(Dataset):
 
         if model_name == "TruckNN":
             size = (80, 240)
-        elif model_name == "TruckResnet50":
+        elif model_name == "TruckResnet18":
             size = (224, 224)
         elif model_name == "TruckRNN":
             size = (80, 240)
