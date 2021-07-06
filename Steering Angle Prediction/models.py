@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn 
-from torchvision.models import resnet50
+from torchvision.models import resnet18
 
 class TruckNN (nn.Module):
     """
@@ -157,7 +157,7 @@ class TruckRNN (nn.Module):
         else:
             return x.squeeze(1).permute(1, 0)   
 
-class TruckResnet50(nn.Module):
+class TruckResnet18(nn.Module):
     """
     A modified CNN model, leverages the pretrained resnet50 for features extraction https://arxiv.org/abs/1512.00567
 
@@ -168,22 +168,22 @@ class TruckResnet50(nn.Module):
     """
 
     def __init__(self):
-        super(TruckResnet50, self).__init__()
+        super(TruckResnet18, self).__init__()
 
-        self.resnet50 = resnet50(pretrained=True)
-        self.freeze_params(self.resnet50)
-        self.resnet50.fc = nn.Identity()                            # N x 3 x 224 x 224 -> N x 2048
+        self.resnet18 = resnet18(pretrained=True)
+        self.freeze_params(self.resnet18)
+        self.resnet18.fc = nn.Identity()                            # N x 3 x 224 x 224 -> N x 2048
 
         self.fc = nn.Sequential(
-            nn.Linear(2048, 512),                                   # N x 2048 -> N x 512
+            nn.Linear(512, 256),                                   # N x 2048 -> N x 512 /  N x 512 -> N x 256
             nn.ELU(),
-            nn.Linear(512, 256),                                    # N x 512 -> N x 256
+            nn.Linear(256, 64),                                    # N x 512 -> N x 256 / N x 256 -> N x 64 
             nn.ELU(),
-            nn.Linear(256, 64),                                     # N x 256 -> N x 64
+            nn.Linear(64, 32),                                     # N x 256 -> N x 64 / N x 64 -> N x 32 
             nn.ELU()
         )
 
-        self.out = nn.Linear(64, 1)                                 # N x 64 -> N x 1
+        self.out = nn.Linear(32, 1)                                 # N x 64 -> N x 1 / N x 32 -> N x 1 
 
     def freeze_params(self, model):
         count = 0
@@ -196,7 +196,7 @@ class TruckResnet50(nn.Module):
         
         x = x.view(x.size(0), 3, 224, 224)                          # N x 3 x H x W, H = 224, W = 224
 
-        x = self.resnet50(x)                                        # N x 2048
+        x = self.resnet18(x)                                        # N x 2048
 
         # input dimension needs to be monitored
         x = self.fc(x)                                              # N x 64
