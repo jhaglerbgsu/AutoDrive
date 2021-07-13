@@ -7,14 +7,14 @@ csv_src = "C:\\Users\\DJL57\\Documents\\dataset\\driving_log.csv"
 
 # target network
 # net = "TruckNN" 
-# net = "TruckRNN"
-net = "TruckResnet18"
+net = "GoogLeNet"
+#net = "TruckResnet18"
 
 # training
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 batch_size = 128 # 8 for LSTM
-seq_len = 15 # for LSTM
+seq_len = 15 
 print_freq = 50
 tensorboard_freq = 50
 epochs = 20 #20 for normal 40 for resnet50 
