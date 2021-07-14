@@ -14,7 +14,7 @@ from config import device, epochs, lrate, wdecay, batch_size, getLoss, print_fre
                     img_dir, csv_src, train_test_split_ratio, seq_len, early_stop_tolerance, fine_tune_ratio, \
                     is_continue
 from utils import group_move_to_device, LossMeter, get_logger, load_ckpt_continue_training
-from models import TruckNN, TruckResnet18, GoogLeNet
+from models import TruckResnet18, GoogLeNet
 from data import TruckDataset, TruckNNSampler
 
 #best_ckpt_src, ckpt_src
@@ -22,7 +22,6 @@ from data import TruckDataset, TruckNNSampler
 """
 Input Dimension Validation: 
 
-TruckNN: N x 3 x 80 x 240 -> N x 1
 GoogLeNet: N x 3 x 224 x 224 -> N x 1
 TruckResnet18: N x 3 x 224 x 224 -> N x 1
 """
@@ -42,9 +41,7 @@ def train(cont=False):
     writer = SummaryWriter()
 
     # Init model
-    if net == "TruckNN":
-        model = TruckNN()
-    elif net == "TruckResnet18":
+    if net == "TruckResnet18":
         model = TruckResnet18()
     elif net == "GoogLeNet":
         model = GoogLeNet()
@@ -77,11 +74,12 @@ def train(cont=False):
     X_train, X_valid, y_train, y_valid = train_test_split(img_src_lst, angles, test_size=1 - train_test_split_ratio, random_state=0, shuffle=True)
     train_dataset = TruckDataset(X=X_train, y=y_train)
     valid_dataset = TruckDataset(X=X_valid, y=y_valid)
-    if net == "GoogLeNet":
+    if net == "nothing":
         train_sampler = TruckNNSampler(data_source=train_dataset, batch_size=batch_size, seq_len=seq_len)
         valid_sampler = TruckNNSampler(data_source=valid_dataset, batch_size=batch_size, seq_len=seq_len)
         train_loader = DataLoader(train_dataset, sampler=train_sampler)
         valid_loader = DataLoader(valid_dataset, sampler=valid_sampler)
+       
     else:
         train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
         valid_loader = DataLoader(valid_dataset, batch_size=batch_size, shuffle=False)
@@ -102,7 +100,7 @@ def train(cont=False):
 
             optim.zero_grad()
             for (img, y_train) in [[leftImg, leftAng], [centerImg, centerAng], [rightImg, rightAng]]:
-                if net == "GoogLeNet":
+                if net == "Nothing":
                     img = img[0].permute([0, 2, 1, 3, 4])
                     y_pred = model(img)
                     y_train = y_train.squeeze()[: , -y_pred.shape[1]:]
@@ -143,7 +141,7 @@ def train(cont=False):
                 leftImg, centerImg, rightImg, leftAng, centerAng, rightAng = group_move_to_device([leftImg, centerImg, rightImg, leftAng, centerAng, rightAng])
 
                 for (img, y_train) in [[leftImg, leftAng], [centerImg, centerAng], [rightImg, rightAng]]:
-                    if net == "GoogLeNet":
+                    if net == "Nothing":
                         img = img[0].permute([0, 2, 1, 3, 4])
                         y_pred = model(img)
                         y_train = y_train.squeeze()[: , -y_pred.shape[1]:]
