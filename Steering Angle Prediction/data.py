@@ -24,7 +24,7 @@ class TruckDataset(Dataset):
         return len(self.img_names)
     
     def __getitem__(self, index):
-        if net == "GoogLeNet":
+        if net == "Nothing":
             left_imgs_batch = []
             front_imgs_batch = []
             right_imgs_batch = [] 
@@ -79,9 +79,7 @@ class TruckDataset(Dataset):
 
         img = torch.from_numpy(img).permute(2, 0, 1) # D, H, W
 
-        if model_name == "TruckNN":
-            size = (80, 240)
-        elif model_name == "TruckResnet18":
+        if model_name == "TruckResnet18":
             size = (224, 224)
         elif model_name == "GoogLeNet":
             size = (224, 224)
