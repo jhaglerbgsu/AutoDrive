@@ -3,7 +3,7 @@
 ### 1 Model Architecture
 
 Three models were experimented:
-* TruckResnet18: Lighter vesion of Resnet50. Has 18 Layers. 
+* TruckResnet18: Lighter version of Resnet50. Has 18 Layers. 
 * TruckResnet50: A CNN transfer learning model utilizing feature maps extracted by ResNet50, connected to additional fully-connected layers. This model was adapated and modified from Du et al.'s 2019 paper [*Self-Driving Car Steering Angle Prediction Based on Image Recognition*](https://arxiv.org/abs/1912.05440). The first 141 layers of the ResNet50 layers (instead of the first 45 layers as in the original paper) were frozen from updating. Dimensions of the fully-connected layers were also modified.
 * GoogLeNet: Is based on a CNN architecture codenamed "Inception". 
 
