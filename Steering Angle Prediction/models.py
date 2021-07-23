@@ -4,21 +4,13 @@ from collections import namedtuple
 from torch import Tensor
 from typing import Optional, Tuple, List, Callable, Any
 import torch.nn.functional as F
-import warnings
-from torchvision.models import googlenet
+import torchvision 
+from torchvision.models import resnet50
 
 #import resnet18
+#import resnet50
 #import googlenet
 
-__all__ = ['GoogLeNet', 'googlenet', "GoogLeNetOutputs", "_GoogLeNetOutputs"]
-
-GoogLeNetOutputs = namedtuple('GoogLeNetOutputs', ['logits', 'aux_logits2', 'aux_logits1'])
-GoogLeNetOutputs.__annotations__ = {'logits': Tensor, 'aux_logits2': Optional[Tensor],
-                                    'aux_logits1': Optional[Tensor]}
-
-# Script annotations failed with _GoogleNetOutputs = namedtuple ...
-# _GoogLeNetOutputs set here for backwards compat
-_GoogLeNetOutputs = GoogLeNetOutputs
 
 
 class GoogLeNet (nn.Module):
@@ -37,12 +29,10 @@ class GoogLeNet (nn.Module):
         blocks: Optional[List[Callable[..., nn.Module]]] = None
     ) -> None:
         super(GoogLeNet, self).__init__()
+        self.googlenet = googlenet(pretrained=True)
         if blocks is None:
             blocks = [BasicConv2d, Inception, InceptionAux]
         if init_weights is None:
-            warnings.warn('The default weight initialization of GoogleNet will be changed in future releases of '
-                          'torchvision. If you wish to keep the old behavior (which leads to long initialization times'
-                          ' due to scipy/scipy#11299), please set init_weights=True.', FutureWarning)
             init_weights = False
         assert len(blocks) == 3
         conv_block = blocks[0]
@@ -107,7 +97,7 @@ class GoogLeNet (nn.Module):
             x = torch.cat((x_ch0, x_ch1, x_ch2), 1)
         return x
 
-    def _forward(self, x: Tensor) -> Tuple[Tensor, Optional[Tensor], Optional[Tensor]]:
+    def forward(self, x: Tensor) -> Tuple[Tensor, Optional[Tensor], Optional[Tensor]]:
         # N x 3 x 224 x 224
         x = self.conv1(x)
         # N x 64 x 112 x 112
@@ -160,25 +150,7 @@ class GoogLeNet (nn.Module):
         x = self.dropout(x)
         x = self.fc(x)
         # N x 1000 (num_classes)
-        return x, aux2, aux1
-
-    @torch.jit.unused
-    def eager_outputs(self, x: Tensor, aux2: Tensor, aux1: Optional[Tensor]) -> GoogLeNetOutputs:
-        if self.training and self.aux_logits:
-            return _GoogLeNetOutputs(x, aux2, aux1)
-        else:
-            return x   # type: ignore[return-value]
-
-    def forward(self, x: Tensor) -> GoogLeNetOutputs:
-        x = self._transform_input(x)
-        x, aux1, aux2 = self._forward(x)
-        aux_defined = self.training and self.aux_logits
-        if torch.jit.is_scripting():
-            if not aux_defined:
-                warnings.warn("Scripted GoogleNet always returns GoogleNetOutputs Tuple")
-            return GoogLeNetOutputs(x, aux2, aux1)
-        else:
-            return self.eager_outputs(x, aux2, aux1)
+        return x
 
 
 class Inception(nn.Module):
@@ -260,7 +232,6 @@ class InceptionAux(nn.Module):
         # N x 1024
         x = self.fc2(x)
         # N x 1000 (num_classes)
-
         return x
 
 
@@ -325,13 +296,48 @@ class TruckResnet18(nn.Module):
 
         return x
 
+class TruckResnet50(nn.Module):
+    """
+    A modified CNN model, leverages the pretrained resnet50 for features extraction https://arxiv.org/abs/1512.00567
+    Transfer Learning from pretrained Resnet-50, connected with 3 dense layers. 
+    Total params: 24.7M (24704961), pretrained 14.5M (14582848), trainable 10.1M (10122113)
+ 
+    """
 
-# """
-# y = TruckResnet50()
-# print(y)
-# print(sum(p.numel() for p in y.parameters() if not p.requires_grad))
-# x = torch.randn(2, 3, 224, 224)
-# print(x.size())
-# x = y(x)
-# print(x.size())
-# """
+    def __init__(self):
+        super(TruckResnet50, self).__init__()
+
+        self.resnet50 = resnet50(pretrained=True)
+        self.freeze_params(self.resnet50)
+        self.resnet50.fc = nn.Identity()                            # N x 3 x 224 x 224 -> N x 2048
+
+        self.fc = nn.Sequential(
+            nn.Linear(2048, 512),                                   # N x 2048 -> N x 512
+            nn.ELU(),
+            nn.Linear(512, 256),                                    # N x 512 -> N x 256
+            nn.ELU(),
+            nn.Linear(256, 64),                                     # N x 256 -> N x 64
+            nn.ELU()
+        )
+
+        self.out = nn.Linear(64, 1)                                 # N x 64 -> N x 1
+
+    def freeze_params(self, model):
+        count = 0
+        for param in model.parameters():
+            count += 1
+            if count <= 141:
+                param.requires_grad = False
+
+    def forward(self, x):
+        
+        x = x.view(x.size(0), 3, 224, 224)                          # N x 3 x H x W, H = 224, W = 224
+
+        x = self.resnet50(x)                                        # N x 2048
+
+        # input dimension needs to be monitored
+        x = self.fc(x)                                              # N x 64
+
+        x = self.out(x)                                             # N x 1
+
+        return x
