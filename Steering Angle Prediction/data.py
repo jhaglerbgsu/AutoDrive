@@ -24,45 +24,6 @@ class TruckDataset(Dataset):
         return len(self.img_names)
     
     def __getitem__(self, index):
-        if net == "Nothing":
-            left_imgs_batch = []
-            front_imgs_batch = []
-            right_imgs_batch = [] 
-            left_angles_batch = [] 
-            front_angles_batch = [] 
-            right_angles_batch = []
-            for batch_idx in index:
-                left_imgs = []
-                front_imgs = []
-                right_imgs = [] 
-                left_angles = [] 
-                front_angles = [] 
-                right_angles = []
-                for seq_idx in batch_idx:
-                    name = self.img_names[seq_idx].split('\\center')[1]
-                    front_name, left_name, right_name = os.path.join('C:\\Users\\DJL57\\Documents\\dataset', 'IMG/center' + name), os.path.join('C:\\Users\\DJL57\\Documents\\dataset', 'IMG/left' + name), os.path.join('C:\\Users\\DJL57\\Documents\\dataset', 'IMG/right' + name)
-                    front_img, left_img, right_img = np.array(Image.open(front_name)), np.array(Image.open(left_name)), np.array(Image.open(right_name))
-                    front_angle, left_angle, right_angle = self.angles[seq_idx], self.angles[seq_idx] + 0.4, self.angles[seq_idx] - 0.4
-
-                    front_img, front_angle = self.process(front_img, front_angle, self.model_name)
-                    left_img, left_angle = self.process(left_img, left_angle, self.model_name)
-                    right_img, right_angle = self.process(right_img, right_angle, self.model_name)
-
-                    left_imgs.append(left_img)
-                    front_imgs.append(front_img)
-                    right_imgs.append(right_img)
-                    left_angles.append(torch.tensor(left_angle))
-                    front_angles.append(torch.tensor(front_angle))
-                    right_angles.append(torch.tensor(right_angle))
-                
-                left_imgs_batch.append(torch.stack(left_imgs))
-                front_imgs_batch.append(torch.stack(front_imgs))
-                right_imgs_batch.append(torch.stack(right_imgs))
-                left_angles_batch.append(torch.stack(left_angles))
-                front_angles_batch.append(torch.stack(front_angles))
-                right_angles_batch.append(torch.stack(right_angles))
-            
-            return torch.stack(left_imgs_batch), torch.stack(front_imgs_batch), torch.stack(right_imgs_batch), torch.stack(left_angles_batch), torch.stack(front_angles_batch), torch.stack(right_angles_batch)
 
         name = self.img_names[index].split('\\center')[1]
         front_name, left_name, right_name = os.path.join('C:\\Users\\DJL57\\Documents\\dataset', 'IMG/center' + name), os.path.join('C:\\Users\\DJL57\\Documents\\dataset', 'IMG/left' + name), os.path.join('C:\\Users\\DJL57\\Documents\\dataset', 'IMG/right' + name)
@@ -82,6 +43,8 @@ class TruckDataset(Dataset):
         if model_name == "TruckResnet18":
             size = (224, 224)
         elif model_name == "GoogLeNet":
+            size = (224, 224)
+        elif model_name == "TruckResnet50":
             size = (224, 224)
 
         transform = transforms.Compose([
