@@ -37,7 +37,7 @@ The best validation loss observed is 0.059 MSE from GoogLeNet.
 
 Will add visualization soon.
 
-## Model training or testing instructions ##
+## Model Training and Testing Instructions ##
 
 * Pretrained checkpoint for TruckResnet50 can be downloaded via this [link](https://drive.google.com/file/d/1Z1yOd6AvhJ3fTfvIvRiNeF8fq8xKdfLA/view?usp=sharing). 
 * Pretrained checkpoint for TruckResnet18 can be downloaded via this [link](https://drive.google.com/file/d/1qh1CmUuj-f81m5yGcQKkoXOOflTwu6GV/view?usp=sharing). 
