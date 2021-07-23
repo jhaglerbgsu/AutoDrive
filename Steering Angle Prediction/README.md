@@ -43,8 +43,7 @@ Will add visualization soon.
 * Pretrained checkpoint for TruckResnet18 can be downloaded via this [link](https://drive.google.com/file/d/1qh1CmUuj-f81m5yGcQKkoXOOflTwu6GV/view?usp=sharing). 
 * Pretrained checkpoint for GoogLeNet can be downloaded via this [link](https://drive.google.com/file/d/1983XhUgrq4ijwB-TeXDaq3wBhTcaEpNJ/view?usp=sharing). 
 
-For usage, proceed to place it to `./checkpoints/model_name/best_ckpt_1.pth`\n. 
-Note: `mode_name` refers to `TruckResnet18`, `TruckResnet50`, and `GoogLeNet`.
+For usage, proceed to place it to `./checkpoints/model_name/best_ckpt_1.pth`. Please Note: `mode_name` refers to `TruckResnet18`, `TruckResnet50`, and `GoogLeNet`.
 
 * Set up all configurations in `config.py`.
 * To train networks, `python train.py`.
