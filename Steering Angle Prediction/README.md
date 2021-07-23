@@ -3,13 +3,13 @@
 ### 1 Model Architecture
 
 Three models were experimented:
-* TruckNN: A CNN model adapted and modified from NVIDIA's 2016 paper [*End to End Learning for Self-Driving Cars*](https://arxiv.org/abs/1604.07316). The original model was augmented with batch normalization layers and dropout layers.
+* TruckResnet18: Lighter vesion of Resnet50. 
 * TruckResnet50: A CNN transfer learning model utilizing feature maps extracted by ResNet50, connected to additional fully-connected layers. This model was adapated and modified from Du et al.'s 2019 paper [*Self-Driving Car Steering Angle Prediction Based on Image Recognition*](https://arxiv.org/abs/1912.05440). The first 141 layers of the ResNet50 layers (instead of the first 45 layers as in the original paper) were frozen from updating. Dimensions of the fully-connected layers were also modified.
-* TruckRNN: A Conv3D-LSTM model, also based on and modified from Du et al.'s 2019 paper mentioned above, was also experimented. The model consumes a sequence of 15 consecutive frames as input, and predicts the steering angle at the last frame. Comparing to the original model, maxpooling layers were omitted and batch normalization layers were introduced. 5 convolutional layers were implemented with the last convolutional layer connected with residual output, followed by two LSTM layers, which is rather different to the model architecture proposed in the paper.
+* GoogLeNet: 
 
-| TruckNN | TruckResnet50 | TruckRNN |
+| TruckResnet18 | TruckResnet50 | GoogLeNet |
 | ------------- | ------------- | ------------- |
-| ![What is this](./visualizations/nvidia_model.png)  | ![What is this](./visualizations/3dLSTM_model.png)  | ![What is this](./visualizations/Res_model.png)|
+| ![What is this](./visualizations/Res18_model.png)  | ![What is this](./visualizations/Res_model.png)  | ![What is this](./visualizations/Googlenet_model.png)|
 
 Figures are authored in and extracted from the original papers respectively.
 
