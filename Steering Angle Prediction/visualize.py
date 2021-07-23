@@ -26,43 +26,6 @@ def vis_angle_on_img(img, rad):
     cv2.imshow("Output", img)
     return img
 
-def vis_salient_map(model, orig_image, img, target_layer_name, dpi=500):
-    # returns the original image blended with the salient map, as a PIL PNG.
-
-    # forward propagation
-    img.requires_grad_()
-    scores = None
-    img_trans = img
-    for name, layer in model.resnet50._modules.items():
-        img_trans = layer(img_trans)  
-        if name == target_layer_name:
-            scores = img_trans 
-            break
-
-    # Get max score, then perform backpropagation on max score
-    # Saliency is now the gradient with respect to input image now.
-    score_max = torch.max(scores)
-    score_max.backward()
-    saliency, _ = torch.max(img.grad.data.abs(),dim=1)
-
-    # Visualize salient map
-    out = saliency[0].detach().cpu().numpy()
-    size = (224, 224)
-    plt.figure(figsize=(size[0]/dpi, size[1]/dpi), dpi=dpi)
-    plt.figimage(out, cmap=plt.cm.hot)
-    plt.axis('off')
-    buf = io.BytesIO()
-    plt.savefig(buf, format='jpg', dpi=dpi)
-    buf.seek(0)
-
-    # Combine with original image
-    smap = Image.open(buf).resize(orig_image.size).convert("RGBA")
-    buf.close()
-    orig_image = orig_image.convert("RGBA")
-    blended = Image.blend(orig_image, smap, 0.75)
-
-    return blended
-
 if __name__ == '__main__':
     # init model
     init_msg = "(1) Initiating Visualization ... "
@@ -78,5 +41,5 @@ if __name__ == '__main__':
     img = preprocess_img(np.array(orig_image), net)
 
     # Visualize and save
-    out_png = vis_salient_map(model, orig_image, img, target_layer_name=target_layer_name)
-    out_png.save(vis_out_src, "PNG")
+   # out_png = vis_salient_map(model, orig_image, img, target_layer_name=target_layer_name)
+     #out_png.save(vis_out_src, "PNG")
