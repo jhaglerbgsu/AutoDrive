@@ -44,9 +44,9 @@ Will add visualization soon.
 
 ### 6 Model training or testing instructions
 
-Pretrained checkpoint for TruckResnet50 can be downloaded via this [link](). 
-Pretrained checkpoint for TruckResnet18 can be downloaded via this [link](). 
-Pretrained checkpoint for GoogLeNet can be downloaded via this [link](). 
+* Pretrained checkpoint for TruckResnet50 can be downloaded via this [link](). 
+* Pretrained checkpoint for TruckResnet18 can be downloaded via this [link](). 
+* Pretrained checkpoint for GoogLeNet can be downloaded via this [link](). 
 
 For usage, proceed to place it to `./checkpoints/TruckResnet50/best_ckpt_1.pth`.
 
