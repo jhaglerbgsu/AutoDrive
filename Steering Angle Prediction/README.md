@@ -1,4 +1,4 @@
-# Steering Angle Prediction
+## Steering Angle Prediction ##
 
 ### 1 Model Architecture
 
@@ -44,7 +44,7 @@ Will add visualization soon.
 
 ### 6 Model training or testing instructions
 
-* Pretrained checkpoint for TruckResnet50 can be downloaded via this [link](). 
+* Pretrained checkpoint for TruckResnet50 can be downloaded via this [link](https://drive.google.com/file/d/1Z1yOd6AvhJ3fTfvIvRiNeF8fq8xKdfLA/view?usp=sharing). 
 * Pretrained checkpoint for TruckResnet18 can be downloaded via this [link](https://drive.google.com/file/d/1qh1CmUuj-f81m5yGcQKkoXOOflTwu6GV/view?usp=sharing). 
 * Pretrained checkpoint for GoogLeNet can be downloaded via this [link](https://drive.google.com/file/d/1983XhUgrq4ijwB-TeXDaq3wBhTcaEpNJ/view?usp=sharing). 
 
