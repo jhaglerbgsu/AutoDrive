@@ -45,10 +45,10 @@ Will add visualization soon.
 ### 6 Model training or testing instructions
 
 * Pretrained checkpoint for TruckResnet50 can be downloaded via this [link](). 
-* Pretrained checkpoint for TruckResnet18 can be downloaded via this [link](). 
-* Pretrained checkpoint for GoogLeNet can be downloaded via this [link](). 
+* Pretrained checkpoint for TruckResnet18 can be downloaded via this [link](https://drive.google.com/file/d/1qh1CmUuj-f81m5yGcQKkoXOOflTwu6GV/view?usp=sharing). 
+* Pretrained checkpoint for GoogLeNet can be downloaded via this [link](https://drive.google.com/file/d/1983XhUgrq4ijwB-TeXDaq3wBhTcaEpNJ/view?usp=sharing). 
 
-For usage, proceed to place it to `./checkpoints/TruckResnet50/best_ckpt_1.pth`.
+For usage, proceed to place it to `./checkpoints/model_name/best_ckpt_1.pth`. Note: `mode_name` refers to `TruckResnet18`, `TruckResnet50`, and `GoogLeNet`.
 
 * Set up all configurations in `config.py`.
 * To train networks, `python train.py`.
