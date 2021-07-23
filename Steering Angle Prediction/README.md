@@ -3,15 +3,15 @@
 ### 1 Model Architecture
 
 Three models were experimented:
-* TruckResnet18: Lighter vesion of Resnet50. 
+* TruckResnet18: Lighter vesion of Resnet50. Has 18 Layers. 
 * TruckResnet50: A CNN transfer learning model utilizing feature maps extracted by ResNet50, connected to additional fully-connected layers. This model was adapated and modified from Du et al.'s 2019 paper [*Self-Driving Car Steering Angle Prediction Based on Image Recognition*](https://arxiv.org/abs/1912.05440). The first 141 layers of the ResNet50 layers (instead of the first 45 layers as in the original paper) were frozen from updating. Dimensions of the fully-connected layers were also modified.
-* GoogLeNet: 
+* GoogLeNet: Is based on a CNN architecture codenamed "Inception". 
 
 | TruckResnet18 | TruckResnet50 | GoogLeNet |
 | ------------- | ------------- | ------------- |
 | ![What is this](./visualizations/Res18_model.png)  | ![What is this](./visualizations/Res_model.png)  | ![What is this](./visualizations/Googlenet_model.png)|
 
-Figures are authored in and extracted from the original papers respectively.
+Resnet50 and Resnet18 figures are extracted from their original papers respectively. GoogLeNet figure was pulled from pytorch.org.   
 
 ### 2 Regression Loss
 
@@ -23,32 +23,32 @@ The models were trained on driving scene images simulated and extracted from [Ud
 
 ### 4 Training
 
-Models were trained on Tesla T4 on Google Colab. 
+Models were trained on Nvidia RTX 2070. 
 
-All three models were first trained with 20 epochs, 1e-4 learning rate. For TruckNN and TruckResnet50, batch size is set to be 32, and that of TruckRNN is set to be 8. It was observed that TruckResnet50 out-performs other models, and hence was further trained to 40 epochs with early stopping tolerance of 10 epochs. Yet, no improvement of the loss was observed.
+All three models were trained with 50 epochs, 1e-4 learning rate and batch size is set to be 128. It was observed that GoogLeNet out-performs other models.
 
 |   | Models Comparison | TruckResnet50 continued training |
 | ------------- | ------------- | ------------- |
-| Train  | ![What is this](./visualizations/model_compare_train_loss.png)  | ![What is this](./visualizations/resnet_train_loss_continue.png)|
-| Validation  | ![What is this](./visualizations/model_compare_valid_loss.png)  | ![What is this](./visualizations/resnet_valid_loss_continue.png)|
+| Train  | ![What is this]()  | ![What is this](./visualizations/resnet_train_loss_continue.png)|
+| Validation  | ![What is this]()  | ![What is this](./visualizations/resnet_valid_loss_continue.png)|
 
 ### 5 Results and Visualization
 
-The best validation loss observed is 0.066 MSE (or 0.25) from TruckResnet50, which is worse than the loss claimed in the paper by an entire degree. Possible contributing factors include model architecture (design and/or complexity), lack of training resources, limited dataset, difference in dataset content (simulator vs real world) and environmental variances, etc.
+The best validation loss observed is 0.064 MSE from TruckResnet50, which is worse than the loss claimed in the paper by an entire degree.
 
-Despite of this, it can be observed that the models' predictions are reasonable to a high degree.
+The best validation loss observed is 0.124 MSE from TruckResnet18, which is the worse out of the three models.
 
- ![What is this](./visualizations/model3_output.jpg) ![What is this](./visualizations/model3_output2.jpg) 
- ![](./visualizations/demo.gif)
+The best validation loss observed is 0.059 MSE from GoogLeNet.
 
-For further visualization, saliency maps of the last Resnet50 Convolutional layer (layer4) can be observed as below:
-![What is this](./visualizations/resnet_salient_map1.png) ![What is this](./visualizations/resnet_salient_map2.png)
-
-The model seems to possess salient features on the road.
+Will add visualization soon.
 
 ### 6 Model training or testing instructions
 
-Pretrained checkpoints for TruckNN and TruckRNN can be found in `checkpoints` directory. Checkpoint for TruckResnet50 can be downloaded via this [link](https://drive.google.com/file/d/1P9DB27bXgqySR7fRcAHog6xr2d-fRQCh/view?usp=sharing). For usage, proceed to place it to `./checkpoints/TruckResnet50/best_ckpt_1.pth`.
+Pretrained checkpoint for TruckResnet50 can be downloaded via this [link](). 
+Pretrained checkpoint for TruckResnet18 can be downloaded via this [link](). 
+Pretrained checkpoint for GoogLeNet can be downloaded via this [link](). 
+
+For usage, proceed to place it to `./checkpoints/TruckResnet50/best_ckpt_1.pth`.
 
 * Set up all configurations in `config.py`.
 * To train networks, `python train.py`.
@@ -63,3 +63,6 @@ Pretrained checkpoints for TruckNN and TruckRNN can be found in `checkpoints` di
 * Manajit Pal's *towards data science* tutorial [*Deep Learning for Self-Driving Cars*](https://towardsdatascience.com/deep-learning-for-self-driving-cars-7f198ef4cfa2), as well as its [affiliated repo](https://github.com/ManajitPal/DeepLearningForSelfDrivingCars).
 * Aditya Rastogi's *Data Driven Investor* tutorial [*Visualizing Neural Networks using Saliency Maps*](https://medium.datadriveninvestor.com/visualizing-neural-networks-using-saliency-maps-in-pytorch-289d8e244ab4).
 * Zhenye Na's *Self-Driving Car Simulator* [dataset on Kaggle](https://www.kaggle.com/zaynena/selfdriving-car-simulator).
+* [*A Deep Learning Approach for Automated Diagnosis and Multi-Class Classification of Alzheimer’s Disease Stages Using Resting-State fMRI and Residual Neural Networks*](DOI:10.1007/s10916-019-1475-2)
+* https://pytorch.org/hub/pytorch_vision_resnet/
+* https://pytorch.org/hub/pytorch_vision_googlenet/
