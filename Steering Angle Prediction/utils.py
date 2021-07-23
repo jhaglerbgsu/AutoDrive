@@ -5,8 +5,8 @@ import torch.nn as nn
 from torchvision import transforms 
 import numpy as np
 
-from config import device
-from models import TruckResnet18, GoogLeNet
+#from config import device
+from models import TruckResnet18, GoogLeNet, TruckResnet50
 
 class LossMeter(object):
     # To keep track of most recent, average, sum, and count of a loss metric.
@@ -28,7 +28,7 @@ class LossMeter(object):
 def group_move_to_device(lst):
     # Accept input as a list of tensors, return a list of all tensors moved to device.
     for (i, item) in enumerate(lst):
-        lst[i] = item.float().to(device)
+        lst[i] = item.float().to('cuda')
     return lst
 
 def get_logger():
@@ -48,12 +48,14 @@ def select_model(model_name, init_msg):
         model = TruckResnet18()
     elif model_name == "GoogLeNet":
         model = GoogLeNet()
-    model = model.to(device)
+    elif model_name == "TruckResnet50":
+        model = TruckResnet50()
+    model = model.to('cuda')
     
     return logger, model
 
 def load_weights(model, ckpt_src, logger):
-    state = torch.load(ckpt_src, map_location=torch.device(device))['model_state_dict']
+    state = torch.load(ckpt_src, map_location=torch.device('cuda'))['model_state_dict']
     for key in list(state.keys()):
         state[key.replace('module.', '')] = state.pop(key)
     model.load_state_dict(state, strict=True)
@@ -68,6 +70,8 @@ def preprocess_img(img, model_name):
         size = (224, 224)
     elif model_name == "GoogLeNet":
         size = (224, 224)
+    elif model_name == "TruckResnet50":
+        size = (224, 224)
 
     transform = transforms.Compose([
         transforms.Resize(size),
@@ -79,9 +83,9 @@ def preprocess_img(img, model_name):
     return img
 
 def load_ckpt_continue_training(ck_path, model, optimizer, logger):
-    model = model.to(device)
+    model = model.to('cuda')
 
-    checkpoint = torch.load(ck_path, map_location=torch.device(device))
+    checkpoint = torch.load(ck_path, map_location=torch.device('cuda'))
     for key in list(checkpoint['model_state_dict'].keys()):
         checkpoint['model_state_dict'][key.replace('module.', '')] = checkpoint['model_state_dict'].pop(key)
     model.load_state_dict(checkpoint['model_state_dict'])
