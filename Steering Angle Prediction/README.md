@@ -27,11 +27,6 @@ Models were trained on Nvidia RTX 2070.
 
 All three models were trained with 50 epochs, 1e-4 learning rate and batch size is set to be 128. It was observed that GoogLeNet out-performs other models.
 
-|   | Models Comparison | TruckResnet50 continued training |
-| ------------- | ------------- | ------------- |
-| Train  | ![What is this]()  | ![What is this](./visualizations/resnet_train_loss_continue.png)|
-| Validation  | ![What is this]()  | ![What is this](./visualizations/resnet_valid_loss_continue.png)|
-
 ## Results and Visualization ##
 
 The best validation loss observed is 0.064 MSE from TruckResnet50, which is worse than the loss claimed in the paper by an entire degree.
@@ -49,7 +44,7 @@ Will add visualization soon.
 * Pretrained checkpoint for GoogLeNet can be downloaded via this [link](https://drive.google.com/file/d/1983XhUgrq4ijwB-TeXDaq3wBhTcaEpNJ/view?usp=sharing). 
 
 For usage, proceed to place it to `./checkpoints/model_name/best_ckpt_1.pth`. 
-Note: `mode_name` refers to `TruckResnet18`, `TruckResnet50`, and `GoogLeNet`.
+* Note: `mode_name` refers to `TruckResnet18`, `TruckResnet50`, and `GoogLeNet`.
 
 * Set up all configurations in `config.py`.
 * To train networks, `python train.py`.
