@@ -5,7 +5,7 @@ from torch import Tensor
 from typing import Optional, Tuple, List, Callable, Any
 import torch.nn.functional as F
 import torchvision 
-from torchvision.models import resnet50
+from torchvision.models import resnet18
 
 #import resnet18
 #import resnet50
