@@ -5,7 +5,7 @@ import torch.nn as nn
 from torchvision import transforms 
 import numpy as np
 
-#from config import device
+from config import device
 from models import TruckResnet18, GoogLeNet, TruckResnet50
 
 class LossMeter(object):
@@ -26,9 +26,9 @@ class LossMeter(object):
         self.avg = self.sum / self.count
 
 def group_move_to_device(lst):
-    # Accept input as a list of tensors, return a list of all tensors moved to device.
+    # Accept input as a list of tensors, return a list of all tensors moved to GPU.
     for (i, item) in enumerate(lst):
-        lst[i] = item.float().to('cuda')
+        lst[i] = item.float().to(device)
     return lst
 
 def get_logger():
@@ -50,12 +50,12 @@ def select_model(model_name, init_msg):
         model = GoogLeNet()
     elif model_name == "TruckResnet50":
         model = TruckResnet50()
-    model = model.to('cuda')
+    model = model.to(device)
     
     return logger, model
 
 def load_weights(model, ckpt_src, logger):
-    state = torch.load(ckpt_src, map_location=torch.device('cuda'))['model_state_dict']
+    state = torch.load(ckpt_src, map_location=torch.device(device))['model_state_dict']
     for key in list(state.keys()):
         state[key.replace('module.', '')] = state.pop(key)
     model.load_state_dict(state, strict=True)
@@ -83,9 +83,9 @@ def preprocess_img(img, model_name):
     return img
 
 def load_ckpt_continue_training(ck_path, model, optimizer, logger):
-    model = model.to('cuda')
+    model = model.to(device)
 
-    checkpoint = torch.load(ck_path, map_location=torch.device('cuda'))
+    checkpoint = torch.load(ck_path, map_location=torch.device(device))
     for key in list(checkpoint['model_state_dict'].keys()):
         checkpoint['model_state_dict'][key.replace('module.', '')] = checkpoint['model_state_dict'].pop(key)
     model.load_state_dict(checkpoint['model_state_dict'])
