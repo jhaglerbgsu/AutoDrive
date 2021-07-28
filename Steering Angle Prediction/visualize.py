@@ -3,16 +3,13 @@ from matplotlib import image
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import tqdm
+import numpy as np
 
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
 from torch.optim import Adam, lr_scheduler
 from tensorboardX import SummaryWriter
-
-import matplotlib.pyplot as plt
-import numpy as np
-
 
 from config import device, epochs, lrate, wdecay, batch_size, getLoss, print_freq, tensorboard_freq, net, \
                     img_dir, csv_src, train_test_split_ratio, early_stop_tolerance, fine_tune_ratio, \
@@ -184,10 +181,11 @@ def train(cont=False):
         epoch_bar.update(1)
     writer.close()
 
-    plt.plot(trainLossMeter.sum,'-o')
-    plt.plot(validLossMeter.sum,'-o')
-    plt.title('Train Loss Epoch')
-    plt.show()
-
+    for n_iter in range(100):
+        writer.add_scalar('Loss/train', np.random.random(), n_iter)
+        writer.add_scalar('Loss/test', np.random.random(), n_iter)
+        writer.add_scalar('Accuracy/train', np.random.random(), n_iter)
+        writer.add_scalar('Accuracy/test', np.random.random(), n_iter)
+    
 if __name__ == "__main__":
     train(cont=is_continue)
