@@ -1,4 +1,5 @@
 import warnings
+from matplotlib import image
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import tqdm
@@ -9,7 +10,7 @@ from torch.utils.data import DataLoader
 from torch.optim import Adam, lr_scheduler
 from tensorboardX import SummaryWriter
 
-from config import epochs, lrate, wdecay, batch_size, getLoss, print_freq, tensorboard_freq, net, \
+from config import device, epochs, lrate, wdecay, batch_size, getLoss, print_freq, tensorboard_freq, net, \
                     img_dir, csv_src, train_test_split_ratio, early_stop_tolerance, fine_tune_ratio, \
                     is_continue, best_ckpt_src, ckpt_src
 from utils import group_move_to_device, LossMeter, get_logger, load_ckpt_continue_training
@@ -21,6 +22,7 @@ Input Dimension Validation:
 
 GoogLeNet: N x 3 x 224 x 224 -> N x 1
 TruckResnet18: N x 3 x 224 x 224 -> N x 1
+TruckResnet50: N x 3 x 224 x 224 -> N x 1
 
 """
 
@@ -35,7 +37,7 @@ def train(cont=False):
     # For tensorboard tracking
     logger = get_logger()
     logger.info("(1) Initiating Training ... ")
-    logger.info("Training on device: {}".format('cuda'))
+    logger.info("Training on device: {}".format(device))
     writer = SummaryWriter()
 
     # Init model
@@ -64,7 +66,7 @@ def train(cont=False):
     #            scheduler.step()
     #else:
     model = nn.DataParallel(model)
-    model = model.to('cuda')
+    model = model.to(device)
 
     logger.info("(2) Model Initiated ... ")
     logger.info("Training model: {}".format(net))
