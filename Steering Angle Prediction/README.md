@@ -35,7 +35,10 @@ The best validation loss observed is 0.124 MSE from TruckResnet18, which is the 
 
 The best validation loss observed is 0.059 MSE from GoogLeNet.
 
-Will add visualization soon.
+|   | Models Comparison | TruckResnet50 continued training(50 Epochs) | TruckResnet18 continued training(50 Epochs) | GoogLeNet continued training(50 Epochs) |
+| ------------- | ------------- | ------------- |
+| Train  | ![What is this](./visualizations/)  | ![What is this](./visualizations/)| ![What is this](./visualizations/) | ![What is this](./visualizations/) |
+| Validation  | ![What is this](./visualizations/)  | ![What is this](./visualizations/)| ![What is this](./visualizations/) | ![What is this](./visualizations/) |
 
 ## Model Training and Testing Instructions ##
 
@@ -48,7 +51,7 @@ For usage, proceed to place it to `./checkpoints/model_name/best_ckpt_1.pth`. Pl
 * Set up all configurations in `config.py`.
 * To train networks, `python train.py`.
 * To inference networks on test images, `python inference.py`.
-* To visualize salient maps, `python visualize.py`.
+* To visualize with extra graphs, `python visualize.py`.
 * To observe training history in tensorboard, `tensorboard --logdir runs`.
 
 ## Acknowledgement and Reference ##
