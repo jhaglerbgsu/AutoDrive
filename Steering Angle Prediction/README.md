@@ -29,14 +29,19 @@ All three models were trained with 50 epochs, 1e-4 learning rate and batch size 
 
 ## Results and Visualization ##
 
-The best validation loss observed is 0.064 MSE from TruckResnet50, which is worse than the loss claimed in the paper by an entire degree.
+The best validation loss observed is 0.064 MSE from TruckResnet50, which is better than Resnet18. 
 
 The best validation loss observed is 0.124 MSE from TruckResnet18, which is the worse out of the three models.
 
+![What is this](./visualizations/Resnet18_50_Epoch.png)
+
 The best validation loss observed is 0.059 MSE from GoogLeNet.
 
-|   | Models Comparison | TruckResnet50 continued training(50 Epochs) | TruckResnet18 continued training(50 Epochs) | GoogLeNet continued training(50 Epochs) |
-| ------------- | ------------- | ------------- |
+![What is this](./visualizations/Googlenet_50_Epoch.png)
+
+
+|| Models Comparison | TruckResnet50 continued training(50 Epochs) | TruckResnet18 continued training(50 Epochs) | GoogLeNet continued training(50 Epochs) |
+| ------------- | ------------- | ------------- | ------------- |
 | Train  | ![What is this](./visualizations/)  | ![What is this](./visualizations/)| ![What is this](./visualizations/) | ![What is this](./visualizations/) |
 | Validation  | ![What is this](./visualizations/)  | ![What is this](./visualizations/)| ![What is this](./visualizations/) | ![What is this](./visualizations/) |
 
