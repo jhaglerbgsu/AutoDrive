@@ -37,7 +37,7 @@ The best validation loss observed is 0.124 MSE from TruckResnet18, which is the 
 
 The best validation loss observed is 0.059 MSE from GoogLeNet.
 
-![What is this](./visualizations/Googlenet_50_Epoch.png)
+![What is this](./visualizations/Googlenet_Epoch_50.png)
 
 
 || Models Comparison | TruckResnet50 continued training(50 Epochs) | TruckResnet18 continued training(50 Epochs) | GoogLeNet continued training(50 Epochs) |
