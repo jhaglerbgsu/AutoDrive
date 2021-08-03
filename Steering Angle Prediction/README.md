@@ -31,9 +31,9 @@ All three models were trained with 50 epochs, 1e-4 learning rate and batch size 
 
 ## Results and Visualization ##
 
-The best validation loss observed is 0.064 MSE from TruckResnet50, which is better than Resnet18. After 40 Epochs, Resnet50 flinelines and stops improving consistantly. 
+The best validation loss observed is 0.058 MSE from TruckResnet50, which is better than Resnet18 and GoogleNet.
 
-![What is this](./visualizations/Resnet50_50_Epoch.png)
+![What is this](./visualizations/update_resnet50_50_epoch.png)
 
 The best validation loss observed is 0.124 MSE from TruckResnet18, which is the worse out of the three models.
 
@@ -46,7 +46,7 @@ The best validation loss observed is 0.059 MSE from GoogLeNet.
 
 | Models Comparison | All Models(50 Epochs) |TruckResnet50 training(50 Epochs) | TruckResnet18 training(50 Epochs) | GoogLeNet training(50 Epochs) |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
-| Train  | ![What is this](./visualizations/all_models_train.png)  | ![What is this](./visualizations/resnet50_train_epoch.png)  | ![What is this](./visualizations/Resnet18_train_loss_epoch.png)  | ![What is this](./visualizations/)  | ![What is this](./visualizations/) |
+| Train  | ![What is this](./visualizations/all_models_train.png)  | ![What is this](./visualizations/resnet50_train_epoch.png)  | ![What is this](./visualizations/Resnet18_train_loss_epoch.png)  | ![What is this](./visualizations/googlenet_train_epoch.png)  | ![What is this](./visualizations/all_models_valid.png) |
 | Validation   | ![What is this](./visualizations/)  | ![What is this](./visualizations/Resnet18_valid_loss_epoch.png)  | ![What is this](./visualizations/)  | ![What is this](./visualizations/)  |
 
 ## Model Training and Testing Instructions ##
@@ -67,7 +67,7 @@ For usage, proceed to place it to `./checkpoints/model_name/best_ckpt_1.pth`. Pl
 
 * When running on windows, a thread error can occur due to windows having poor parrallel computing. Fix: run this command `python train.py --workers 0`
 * Due to the originals RNN models, training uses CPU heavily. This has not be fully optimized to use cuda only. 
-* Some files may not work correctly due to some parts being loaded on the GPU and other loaded onto CPU.
+* Some files may not work correctly due to some parts being loaded on the GPU and others loaded onto CPU.
 
 ## Acknowledgement and Reference ##
 
