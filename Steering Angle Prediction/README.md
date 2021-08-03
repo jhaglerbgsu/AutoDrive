@@ -23,7 +23,9 @@ The models were trained on driving scene images simulated and extracted from [Ud
 
 ## Training ##
 
-Models were trained on Nvidia RTX 2070. 
+Models were trained on Nvidia RTX 2070 using Anaconda.
+
+OS: Windows 10 Pro version 21H1
 
 All three models were trained with 50 epochs, 1e-4 learning rate and batch size is set to be 128. It was observed that GoogLeNet out-performs other models.
 
@@ -44,7 +46,7 @@ The best validation loss observed is 0.059 MSE from GoogLeNet.
 
 | Models Comparison | TruckResnet50 training(50 Epochs) | TruckResnet18 training(50 Epochs) | GoogLeNet training(50 Epochs) |
 | ------------- | ------------- | ------------- | ------------- |
-| Train  | ![What is this](./visualizations/)  | ![What is this](./visualizations/Resnet18_train_loss_epoch.png)  | ![What is this](./visualizations/)  | ![What is this](./visualizations/) |
+| Train  | ![What is this](./visualizations/all_models_train.png)  | ![What is this](./visualizations/Resnet18_train_loss_epoch.png)  | ![What is this](./visualizations/)  | ![What is this](./visualizations/) |
 | Validation   | ![What is this](./visualizations/)  | ![What is this](./visualizations/Resnet18_valid_loss_epoch.png)  | ![What is this](./visualizations/)  | ![What is this](./visualizations/)  |
 
 ## Model Training and Testing Instructions ##
@@ -60,6 +62,12 @@ For usage, proceed to place it to `./checkpoints/model_name/best_ckpt_1.pth`. Pl
 * To inference networks on test images, `python inference.py`.
 * To visualize with extra graphs, `python visualize.py`.
 * To observe training history in tensorboard, `tensorboard --logdir runs`.
+
+## Known Issues ##
+
+* When running on windows, a thread error can occur due to windows having poor parrallel computing. Fix: run this command `python train.py --workers 0`
+* Due to the originals RNN models, training uses CPU heavily. This has not be fully optimized to use cuda only. 
+* Some files may not work correctly due to some parts being loaded on the GPU and other loaded onto CPU.
 
 ## Acknowledgement and Reference ##
 
