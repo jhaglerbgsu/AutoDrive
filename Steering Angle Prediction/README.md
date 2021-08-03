@@ -27,7 +27,7 @@ Models were trained on Nvidia RTX 2070 using Anaconda.
 
 OS: Windows 10 Pro version 21H1
 
-All three models were trained with 50 epochs, 1e-4 learning rate and batch size is set to be 128. It was observed that GoogLeNet out-performs other models.
+All three models were trained with 50 epochs, 1e-4 learning rate and batch size is set to be 128.
 
 ## Results and Visualization ##
 
@@ -49,7 +49,7 @@ The best validation loss observed is 0.059 MSE from GoogLeNet. This almost match
 | Train  | ![What is this](./visualizations/all_models_train.png)  | ![What is this](./visualizations/resnet50_train_epoch.png)  | ![What is this](./visualizations/Resnet18_train_loss_epoch.png)  | ![What is this](./visualizations/googlenet_train_epoch.png)
 | Validation   | ![What is this](./visualizations/all_models_valid.png)  | ![What is this](./visualizations/resnet50_valid_epoch.png)  | ![What is this](./visualizations/Resnet18_valid_loss_epoch.png)  | ![What is this](./visualizations/googlenet_valid_epoch.png)  |
 
-* All Model graphs were obtained by using tensorboard
+* All Model graphs were obtained by using Tensorboard
 
 ## Model Training and Testing Instructions ##
 
@@ -81,3 +81,4 @@ For usage, proceed to place it to `./checkpoints/model_name/best_ckpt_1.pth`. Pl
 * Resnet18 model picture was extracted from: *A Deep Learning Approach for Automated Diagnosis and Multi-Class Classification of Alzheimer’s Disease Stages Using Resting-State fMRI and Residual Neural Networks*(DOI:10.1007/s10916-019-1475-2)
 * https://pytorch.org/hub/pytorch_vision_resnet/
 * https://pytorch.org/hub/pytorch_vision_googlenet/
+* https://www.anaconda.com/
