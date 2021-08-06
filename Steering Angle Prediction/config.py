@@ -6,8 +6,8 @@ img_dir = "C:\\Users\\DJL57\\Documents\\dataset\\IMG"
 csv_src = "C:\\Users\\DJL57\\Documents\\dataset\\driving_log.csv"
 
 # Target network
-#net = "GoogLeNet"
-net = "TruckResnet18"
+net = "GoogLeNet"
+#net = "TruckResnet18"
 #net = "TruckResnet50"
 
 
@@ -18,7 +18,7 @@ batch_size = 128
 seq_len = 15 
 print_freq = 50
 tensorboard_freq = 50
-epochs = 10
+epochs = 20
 lrate = 1e-4
 wdecay = 1e-4
 getLoss = torch.nn.MSELoss()
