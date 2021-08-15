@@ -53,7 +53,7 @@ The best validation loss observed is 0.058 MSE from GoogLeNet with 2 added modul
 | Train  | ![What is this](./visualizations/all_models_train.png)  | ![What is this](./visualizations/resnet50_train_epoch.png)  | ![What is this](./visualizations/Resnet18_train_loss_epoch.png)  | ![What is this](./visualizations/googlenet_train_epoch.png)
 | Validation   | ![What is this](./visualizations/all_models_valid.png)  | ![What is this](./visualizations/resnet50_valid_epoch.png)  | ![What is this](./visualizations/Resnet18_valid_loss_epoch.png)  | ![What is this](./visualizations/googlenet_valid_epoch.png)  |
 
-| TruckResnet50 vs GoogLeNet Validation Comparison |
+| TruckResnet50 vs GoogLeNet With Added Modules Validation Comparison |
 | ------------- | 
 | ![What is this](./visualizations/GoogLeNet_win_valid.png) |
 
