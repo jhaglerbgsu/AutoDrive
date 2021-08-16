@@ -47,16 +47,23 @@ The best validation loss observed is 0.058 MSE from GoogLeNet with 2 added modul
 
 ![What is this](./visualizations/googlenet_added_modules_win.png)
 
+#### Figure 1 ####
 
 | Models Comparison | All Models(50 Epochs) | TruckResnet50 (50 Epochs) | TruckResnet18 (50 Epochs) | GoogLeNet (50 Epochs) |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | Train  | ![What is this](./visualizations/all_models_train.png)  | ![What is this](./visualizations/resnet50_train_epoch.png)  | ![What is this](./visualizations/Resnet18_train_loss_epoch.png)  | ![What is this](./visualizations/googlenet_train_epoch.png)
 | Validation   | ![What is this](./visualizations/all_models_valid.png)  | ![What is this](./visualizations/resnet50_valid_epoch.png)  | ![What is this](./visualizations/Resnet18_valid_loss_epoch.png)  | ![What is this](./visualizations/googlenet_valid_epoch.png)  |
 
+* Note. `TruckResnet50` is light blue, `TruckResnet18` is dark blue, and `GoogLeNet` is dark orange. 
+* All Model graphs were obtained by using Tensorboard
+
+#### Figure 2 ####
+
 | TruckResnet50 vs GoogLeNet With Added Modules Validation Comparison |
 | ------------- | 
 | ![What is this](./visualizations/GoogLeNet_win_valid_3.png) |
 
+* Note. `TruckResnet50` is dark orange and `GoogLeNet` is pink.
 * All Model graphs were obtained by using Tensorboard
 
 ## Model Training and Testing Instructions ##
