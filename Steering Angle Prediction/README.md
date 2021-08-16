@@ -55,7 +55,7 @@ The best validation loss observed is 0.058 MSE from GoogLeNet with 2 added modul
 
 | TruckResnet50 vs GoogLeNet With Added Modules Validation Comparison |
 | ------------- | 
-| ![What is this](./visualizations/GoogLeNet_win_valid.png) |
+| ![What is this](./visualizations/GoogLeNet_win_valid_3.png) |
 
 * All Model graphs were obtained by using Tensorboard
 
