@@ -298,7 +298,54 @@ class TruckResnet18(nn.Module):
         x = self.out(x)                                             # N x 1
 
         return x
+    
 
+class TruckResnet34(nn.Module):
+    """
+    
+    """
+
+    def __init__(self):
+        super(TruckResnet34, self).__init__()
+
+        self.resnet34 = resnet34(pretrained=True)
+        self.freeze_params(self.resnet34)
+        self.resnet34.fc = nn.Identity()                            # N x 3 x 224 x 224 -> N x 2048
+
+        self.fc = nn.Sequential(
+            nn.Linear(512, 256),                                   # N x 2048 -> N x 512 /  N x 512 -> N x 256
+            nn.ELU(),
+            nn.Linear(256, 64),                                    # N x 512 -> N x 256 / N x 256 -> N x 64 
+            nn.ELU(),
+            nn.Linear(64, 32),                                     # N x 256 -> N x 64 / N x 64 -> N x 32 
+            nn.ELU()
+        )
+
+        self.out = nn.Linear(32, 1)                                 # N x 64 -> N x 1 / N x 32 -> N x 1 
+
+    def freeze_params(self, model):
+        count = 0
+        for param in model.parameters():
+            count += 1
+            if count <= 141:
+                param.requires_grad = False
+
+    def forward(self, x):
+        
+        x = x.view(x.size(0), 3, 224, 224)                          # N x 3 x H x W, H = 224, W = 224
+
+        x = self.resnet34(x)                                        # N x 2048
+
+        # input dimension needs to be monitored
+        x = self.fc(x)                                              # N x 64
+
+        x = self.out(x)                                             # N x 1
+
+        return x    
+    
+    
+    
+    
 class TruckResnet50(nn.Module):
     """
     A modified CNN model, leverages the pretrained resnet50 for features extraction https://arxiv.org/abs/1512.00567
