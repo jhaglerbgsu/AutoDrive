@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 import cv2
 
-from models import TruckResnet18, GoogLeNet, TruckResnet50
+from models import TruckResnet18, GoogLeNet, TruckResnet50, TruckResnet34, TruckResnet101, TruckResnet151
 from config import best_ckpt_src, inf_img_src, inf_vid_src, inf_out_src, inf_out_img_src, inf_out_vid_src, net, seq_len
 from utils import select_model, load_weights, preprocess_img
 from visualize import vis_angle_on_img
