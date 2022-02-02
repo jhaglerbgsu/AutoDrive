@@ -15,7 +15,7 @@ from config import device, epochs, lrate, wdecay, batch_size, getLoss, print_fre
                     img_dir, csv_src, train_test_split_ratio, early_stop_tolerance, fine_tune_ratio, \
                     is_continue, best_ckpt_src, ckpt_src
 from utils import group_move_to_device, LossMeter, get_logger, load_ckpt_continue_training
-from models import TruckResnet18, GoogLeNet, TruckResnet50
+from models import TruckResnet18, GoogLeNet, TruckResnet50, TruckResnet34, TruckResnet101, TruckResnet151
 from data import TruckDataset
 
 """
@@ -44,10 +44,17 @@ def train(cont=False):
     # Init model
     if net == "TruckResnet18":
         model = TruckResnet18()
-    elif net == "GoogLeNet":
-        model = GoogLeNet()
+    elif net == "TruckResnet34":
+        model = TruckResnet34()
     elif net == "TruckResnet50":
         model = TruckResnet50()
+    elif net == "TruckResnet101":
+        model = TruckResnet101()
+    elif net == "TruckResnet151":
+        model = TruckResnet151()
+    elif net == "GoogLeNet":
+        model = GoogLeNet()
+    
 
     # Schedule learning rate
     optim = Adam(model.parameters(), lr=lrate, weight_decay=wdecay)
