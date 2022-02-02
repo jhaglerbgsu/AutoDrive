@@ -42,10 +42,17 @@ class TruckDataset(Dataset):
 
         if model_name == "TruckResnet18":
             size = (224, 224)
-        elif model_name == "GoogLeNet":
+        elif model_name == "TruckResnet34":
             size = (224, 224)
         elif model_name == "TruckResnet50":
             size = (224, 224)
+        elif model_name == "TruckResnet101":
+            size = (224, 224)
+        elif model_name == "TruckResnet151":
+            size = (224, 224)
+        elif model_name == "GoogLeNet":
+            size = (224, 224)
+
 
         transform = transforms.Compose([
             transforms.Resize(size),
