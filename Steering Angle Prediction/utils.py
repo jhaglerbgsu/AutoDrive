@@ -6,7 +6,7 @@ from torchvision import transforms
 import numpy as np
 
 from config import device
-from models import TruckResnet18, GoogLeNet, TruckResnet50
+from models import TruckResnet18, GoogLeNet, TruckResnet50, TruckResnet34, TruckResnet101, TruckResnet151
 
 class LossMeter(object):
     # To keep track of most recent, average, sum, and count of a loss metric.
@@ -50,6 +50,12 @@ def select_model(model_name, init_msg):
         model = GoogLeNet()
     elif model_name == "TruckResnet50":
         model = TruckResnet50()
+    elif model_name == "TruckResnet34":
+        model = TruckResnet34()
+    elif model_name == "TruckResnet101":
+        model = TruckResnet101()
+    elif model_name == "TruckResnet151":
+        model = TruckResnet151()
     model = model.to(device)
     
     return logger, model
@@ -72,6 +78,12 @@ def preprocess_img(img, model_name):
         size = (224, 224)
     elif model_name == "TruckResnet50":
         size = (224, 224)
+    elif model_name == "TruckResnet34":
+        size = (224,224)
+    elif model_name == "TruckResnet101":
+        size = (224,224)
+    elif model_name == "TruckResnet151":
+        size = (224,224)
 
     transform = transforms.Compose([
         transforms.Resize(size),
